@@ -29,7 +29,20 @@ function fromEvent(element, type)
   }).then(res => {console.log(res)})
 }
 
-console.log(fromEvent('click', document))
+fromEvent(document, 'click')
+
+function formEvent(element, type)
+{
+  return new Observable((subscriber) => {
+    element.addEventListener(type, (event) => {subscriber.next(event)})
+  })
+}
+
+formEvent(document, 'click').subscribe({
+  next: (x) => console.log(x),
+  error: (err) => console.log("err", err),
+  complete: () => console.log("Completed"),
+})
 
 // Використовуючи оператор interval, підписатися на нього і слухати до того моменту, доки значення не буде більше 5(використовуючи оператор в pipe)
 
