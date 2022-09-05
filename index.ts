@@ -22,15 +22,6 @@ example.subscribe({
 // Створити аналог fromEvent оператора( який під капотом використовує addEventListener).
 // Не забувайте про витоки пам'яті і те, як їх уникати в RxJS(після відписання від цього оператора ми не повинні більше слухати події)
 
-function fromEvent(element, type)
-{
-	const promise = new Promise((res, rej) => {
-  	element.addEventListener(type, (event) => {res(event)})
-  }).then(res => {console.log(res)})
-}
-
-fromEvent(document, 'click')
-
 function formEvent(element, type)
 {
   return new Observable((subscriber) => {
