@@ -25,15 +25,21 @@ example.subscribe({
 function formEvent(element, type)
 {
   return new Observable((subscriber) => {
-    element.addEventListener(type, (event) => {subscriber.next(event)})
+    const sendEvent = (event) => {subscriber.next(event)};
+    element.addEventListener(type, sendEvent)
+    return () => {
+      element.removeEventListener(type, sendEvent);
+    };
   })
 }
 
-formEvent(document, 'click').subscribe({
+const eventObservable = formEvent(document, 'click').subscribe({
   next: (x) => console.log(x),
   error: (err) => console.log("err", err),
-  complete: () => console.log("Completed"),
+  complete: () => {console.log("Completed")},
 })
+
+setTimeout(() => eventObservable.unsubscribe(), 5000)
 
 // Використовуючи оператор interval, підписатися на нього і слухати до того моменту, доки значення не буде більше 5(використовуючи оператор в pipe)
 
