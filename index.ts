@@ -5,7 +5,7 @@ import { ajax } from 'rxjs/ajax';
 
 // Створити Observable, яка буде віддавати 2 синхронні значення "1", "2", а через 2 секунди викидувати помилку. Ваша задача використовуючи існуючі оператори обробити цю помилку всередині pipe, для того, щоб вона не дійшла до subscribe
 
-const observable = new Observable(function subscribe(subscriber) {
+/*const observable = new Observable(function subscribe(subscriber) {
   subscriber.next(1);
   subscriber.next(2);
   setInterval(() => subscriber.error('Observable error detected'), 2000);
@@ -62,11 +62,7 @@ function logInterval(intervalTime)
   })
 }
 
-logInterval(500);
-
-
-
-
+logInterval(500);*/
 
 // Перетворіть coldInterval нижче на hotInterval, щоб він став гарячим(віддавав одні і ті ж значення різним підписникам)
 // Приклад:
@@ -79,7 +75,7 @@ logInterval(500);
 // sub1 3
 // sub2 3
 
-/*function coldInterval() {
+function coldInterval() {
   return new Observable((subscriber) => {
     let count = 0;
     const intervalId = setInterval(() => {
@@ -117,4 +113,3 @@ const button = document.querySelector('button');
 // Використовуючи RxJs зробити свою імплементацію Drag&Drop.
 // Деталі: Створіть 3 observable mousedown$, mousemove$, mouseup$. Які будуть слухати події mousedown, mousemove, mouseup відповідно. Ваша задача поєднати їх так, щоб mousemove$ починав працювати тільки коли користувач натикає  на mousedown, і переставали слухати, коли відбувається mouseup. Тобто постійно ви маєте слухати тільки mousedown, а підписуватися на зміну mousemove i mouseup тільки після івенту mousedown
 // const mousedown$ = ... .pipe().subscribe(value - колекція mousemove подій, яка починається віддаватися при mousedown і закінчує стрім при mouseup)
-*/
