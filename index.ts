@@ -62,6 +62,11 @@ function logInterval(intervalTime)
   })
 }
 
+logInterval(500);
+
+
+
+
 
 // Перетворіть coldInterval нижче на hotInterval, щоб він став гарячим(віддавав одні і ті ж значення різним підписникам)
 // Приклад:
