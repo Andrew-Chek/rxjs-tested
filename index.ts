@@ -93,9 +93,16 @@ function coldInterval() {
 }
 
 const coldInterval$ = coldInterval();
-coldInterval$.subscribe((value) => console.log('sub1:', value));
+console.log('sub1 subscibed')
+coldInterval$.subscribe((value) => {
+  console.log('sub1:', value)
+});
 setTimeout(
-  () => coldInterval$.subscribe((value) => console.log('sub2:', value)),
+  () => {
+    console.log('sub2 subscibed')
+    coldInterval$.subscribe((value) => {
+    console.log('sub1:', value)}
+  }),
   3000
 );
 
