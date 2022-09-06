@@ -80,8 +80,7 @@ function coldInterval() {
     let count = 0;
     const intervalId = setInterval(() => {
       if (count < 5) {
-        subscriber.next(count++);
-        count += 1;
+        count = subscriber.next(count++);
       } else {
         subscriber.complete();
       }
@@ -95,15 +94,21 @@ function coldInterval() {
 
 const coldInterval$ = coldInterval();
 console.log('sub1 subscibed')
-coldInterval$.subscribe((value) => {
-  console.log('sub1:', value)
+coldInterval$.subscribe({
+  next: (value) => {
+    console.log('sub1:', value)
+    return value;
+  }
 });
 
 function subscribe()
 {
   console.log('sub2 subscribed');
-  coldInterval$.subscribe((value) => {
-    console.log('sub2:', value)})
+  coldInterval$.subscribe({
+    next: (value) => {
+      console.log('sub1:', value)
+      return value;
+    }})
 }
 setTimeout(subscribe, 3000);
 
