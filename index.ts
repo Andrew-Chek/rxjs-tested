@@ -99,10 +99,10 @@ coldInterval$.subscribe((value) => {
 });
 setTimeout(
   () => {
-    console.log('sub2 subscibed')
+    console.log('sub2 subscibed');
     coldInterval$.subscribe((value) => {
-    console.log('sub1:', value)}
-  }),
+    console.log('sub2:', value)
+  }}),
   3000
 );
 
