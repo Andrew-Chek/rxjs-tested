@@ -80,7 +80,7 @@ function coldInterval() {
     let count = 0;
     const intervalId = setInterval(() => {
       if (count < 5) {
-        count = subscriber.next(count++);
+        subscriber.next(count++);
       } else {
         subscriber.complete();
       }
