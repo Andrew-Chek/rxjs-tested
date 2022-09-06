@@ -54,7 +54,7 @@ function logInterval(intervalTime)
       }
       else
       {
-        this.complete()
+        return;
       }
     },
     error: (err) => console.log("err", err),
