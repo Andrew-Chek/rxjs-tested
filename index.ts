@@ -1,6 +1,6 @@
 import './style.css';
 
-import { Observable, catchError, of, from } from 'rxjs';
+import { Observable, catchError, of, from, interval } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 
 // Створити Observable, яка буде віддавати 2 синхронні значення "1", "2", а через 2 секунди викидувати помилку. Ваша задача використовуючи існуючі оператори обробити цю помилку всередині pipe, для того, щоб вона не дійшла до subscribe
@@ -42,6 +42,26 @@ const eventObservable = formEvent(document, 'click').subscribe({
 setTimeout(() => eventObservable.unsubscribe(), 5000)
 
 // Використовуючи оператор interval, підписатися на нього і слухати до того моменту, доки значення не буде більше 5(використовуючи оператор в pipe)
+
+function logInterval(intervalTime) 
+{
+  const intervalObservable = interval(intervalTime)
+  intervalObservable.subscribe({
+    next: (x) => {
+      if(x < 5)
+      {
+        console.log(x)
+      }
+      else
+      {
+        this.complete()
+      }
+    },
+    error: (err) => console.log("err", err),
+    complete: () => {console.log("Completed")},
+  })
+}
+
 
 // Перетворіть coldInterval нижче на hotInterval, щоб він став гарячим(віддавав одні і ті ж значення різним підписникам)
 // Приклад:
