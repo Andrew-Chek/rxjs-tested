@@ -81,6 +81,7 @@ function coldInterval() {
     const intervalId = setInterval(() => {
       if (count < 5) {
         subscriber.next(count++);
+        count += 1;
       } else {
         subscriber.complete();
       }
@@ -97,14 +98,14 @@ console.log('sub1 subscibed')
 coldInterval$.subscribe((value) => {
   console.log('sub1:', value)
 });
-setTimeout(
-  () => {
-    console.log('sub2 subscibed');
-    coldInterval$.subscribe((value) => {
-    console.log('sub2:', value)
-  }}),
-  3000
-);
+
+function subscribe()
+{
+  console.log('sub2 subscribed');
+  coldInterval$.subscribe((value) => {
+    console.log('sub2:', value)})
+}
+setTimeout(subscribe, 3000);
 
 // Обробити відповідь запиту, в pipe спочатку витягнути об'єкт response(це масив), відфільтруєте масив так, щоб залишилися тільки пости з id менше 5.
 // Hint: так як response - це буде масив постів, ви не можете просто фідфільтрувати його через filter(він приймає кожен елемент масиву, а не цілий масив). Для рішення цієї задачі вам потрібні оператори mergeMap або concatMap, в яких ви зробите з(перекладіть англійською) масиву потік окремих елементів масиву([1, 2, 3] => 1, 2, 3), відфільтруєте їх,а потім зберете назад в масив за допомогою оператора. В subscribe ми отримаємо масив з 4 об'єктів id яких менше 5
