@@ -1,6 +1,7 @@
 import './style.css';
 
 import { Observable, catchError, of, from, interval, take } from 'rxjs';
+import { share } from 'rxjs/operators'
 import { ajax } from 'rxjs/ajax';
 
 // Створити Observable, яка буде віддавати 2 синхронні значення "1", "2", а через 2 секунди викидувати помилку. Ваша задача використовуючи існуючі оператори обробити цю помилку всередині pipe, для того, щоб вона не дійшла до subscribe
@@ -57,7 +58,7 @@ setTimeout(() => eventObservable.unsubscribe(), 5000)*/
 // sub2 3
 
 function coldInterval() {
-  return new Observable((subscriber) => {
+  return new Observable<number>((subscriber) => {
     let count = 0;
     const intervalId = setInterval(() => {
       if (count < 5) {
@@ -74,8 +75,9 @@ function coldInterval() {
 }
 
 const coldInterval$ = coldInterval();
+const hotInterval = coldInterval$.pipe(share())
 console.log('sub1 subscibed')
-coldInterval$.subscribe({
+hotInterval.subscribe({
   next: (value) => {
     console.log('sub1:', value)
     return value;
@@ -85,7 +87,7 @@ coldInterval$.subscribe({
 function subscribe()
 {
   console.log('sub2 subscribed');
-  coldInterval$.subscribe({
+  hotInterval.subscribe({
     next: (value) => {
       console.log('sub1:', value)
       return value;
