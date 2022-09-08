@@ -1,7 +1,7 @@
 import './style.css';
 
-import { Observable, catchError, of, from, interval, take, mergeMap, filter } from 'rxjs';
-import { share, switchMap } from 'rxjs/operators'
+import { Observable, catchError, of, from, interval, take } from 'rxjs';
+import { share, switchMap, map, filter, mergeMap, toArray } from 'rxjs/operators'
 import { ajax } from 'rxjs/ajax';
 import { fromAjax } from 'rxjs/internal/ajax/ajax';
 
@@ -106,11 +106,24 @@ interface ResponseObject{
   body: string
 }
 
-const request = ajax.getJSON<ResponseObject>('https://jsonplaceholder.typicode.com/posts')
-.pipe(
-  filter((result) => result.id < 5))
+const saveObject = object => {
+  return of(object);
+};
 
-  request.subscribe(console.log)
+ajax<ResponseObject>('https://jsonplaceholder.typicode.com/posts')
+.pipe(
+  mergeMap(response => {
+    let data = []
+    for(let post of response.response)
+    {
+      data.push(post)
+    }
+    return data;
+  }),
+  filter((value) => value.id < 5),
+  toArray()
+)
+.subscribe(data => console.log(data))
 
 
 
