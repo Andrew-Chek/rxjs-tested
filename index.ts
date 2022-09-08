@@ -89,7 +89,7 @@ function subscribe()
   console.log('sub2 subscribed');
   hotInterval.subscribe({
     next: (value) => {
-      console.log('sub1:', value)
+      console.log('sub2:', value)
       return value;
     }})
 }
