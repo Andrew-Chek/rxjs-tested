@@ -130,24 +130,29 @@ ajax<ResponseObject>('https://jsonplaceholder.typicode.com/posts')
 // Використовуючи Rxjs написати потік, який буде слухати кліки по кнопці і відправляти при натисканню на неї запит на сервер із текстом введеним в пошук. В subscribe ми маємо отримати дані з серверу.
 // Оператори, які можуть знадобитися: fromEvent, switchMap, ajax, map, etc
 
-const search = document.querySelector('input');
-const button = document.querySelector('button');
+// const search = document.querySelector('input');
+// const button = document.querySelector('button');
 
-function getEventListener()
-{
-  return fromEvent(button, 'click')
-  .pipe(
-    switchMap(event => {
-    console.log(search.value);
-    return ajax({
-      url: 'https://jsonplaceholder.typicode.com/posts',
-      body: search.value
-    })
-  }))
-}
+// function getEventListener()
+// {
+//   return fromEvent(button, 'click')
+//   .pipe(
+//     switchMap(event => {
+//     console.log(search.value);
+//     return ajax({
+//       url: 'https://jsonplaceholder.typicode.com/posts',
+//       body: search.value
+//     })
+//   }))
+// }
 
-const request = getEventListener().subscribe(data => console.log(data.response))
+// const request = getEventListener().subscribe(data => console.log(data.response))
 
 // Використовуючи RxJs зробити свою імплементацію Drag&Drop.
 // Деталі: Створіть 3 observable mousedown$, mousemove$, mouseup$. Які будуть слухати події mousedown, mousemove, mouseup відповідно. Ваша задача поєднати їх так, щоб mousemove$ починав працювати тільки коли користувач натикає  на mousedown, і переставали слухати, коли відбувається mouseup. Тобто постійно ви маєте слухати тільки mousedown, а підписуватися на зміну mousemove i mouseup тільки після івенту mousedown
 // const mousedown$ = ... .pipe().subscribe(value - колекція mousemove подій, яка починається віддаватися при mousedown і закінчує стрім при mouseup)
+const button = document.querySelector('button');
+
+const mousedown$ = fromEvent(button, 'mousedown')
+const mouseup$ = fromEvent(button, 'mouseup')
+const mousemove$ = fromEvent(button, 'mousemove')
