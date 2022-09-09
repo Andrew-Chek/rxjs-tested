@@ -136,7 +136,26 @@ const button = document.querySelector('button');
 function getEventListener()
 {
   return fromEvent(button, 'click')
+  .pipe(
+    switchMap(event => {
+    console.log(search.value);
+    return ajax({
+      url: 'https://jsonplaceholder.typicode.com/posts',
+      body: search.value
+    }),
+    mergeMap(response => {
+      let data = []
+      for(let post of response.response)
+      {
+        data.push(post)
+      }
+      return data;
+    }),
+    toArray()
+  }))
 }
+
+const request = getEventListener().subscribe(console.log)
 
 getEventListener().subscribe(console.log)
 
