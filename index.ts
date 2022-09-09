@@ -1,6 +1,6 @@
 import './style.css';
 
-import { Observable, catchError, of, from, interval, take } from 'rxjs';
+import { Observable, catchError, of, from, interval, take, fromEvent } from 'rxjs';
 import { share, switchMap, map, filter, mergeMap, toArray } from 'rxjs/operators'
 import { ajax } from 'rxjs/ajax';
 import { fromAjax } from 'rxjs/internal/ajax/ajax';
@@ -99,7 +99,7 @@ setTimeout(subscribe, 3000);*/
 // Обробити відповідь запиту, в pipe спочатку витягнути об'єкт response(це масив), відфільтруєте масив так, щоб залишилися тільки пости з id менше 5.
 // Hint: так як response - це буде масив постів, ви не можете просто фідфільтрувати його через filter(він приймає кожен елемент масиву, а не цілий масив). Для рішення цієї задачі вам потрібні оператори mergeMap або concatMap, в яких ви зробите з(перекладіть англійською) масиву потік окремих елементів масиву([1, 2, 3] => 1, 2, 3), відфільтруєте їх,а потім зберете назад в масив за допомогою оператора. В subscribe ми отримаємо масив з 4 об'єктів id яких менше 5
 
-interface ResponseObject{
+/*interface ResponseObject{
   userId: number,
   id: number,
   title: string,
@@ -123,7 +123,7 @@ ajax<ResponseObject>('https://jsonplaceholder.typicode.com/posts')
   filter((value) => value.id < 5),
   toArray()
 )
-.subscribe(data => console.log(data))
+.subscribe(data => console.log(data))*/
 
 
 
@@ -132,6 +132,13 @@ ajax<ResponseObject>('https://jsonplaceholder.typicode.com/posts')
 
 const search = document.querySelector('input');
 const button = document.querySelector('button');
+
+function getEventListener()
+{
+  return fromEvent(button, 'click')
+}
+
+getEventListener().subscribe(console.log)
 
 // Використовуючи RxJs зробити свою імплементацію Drag&Drop.
 // Деталі: Створіть 3 observable mousedown$, mousemove$, mouseup$. Які будуть слухати події mousedown, mousemove, mouseup відповідно. Ваша задача поєднати їх так, щоб mousemove$ починав працювати тільки коли користувач натикає  на mousedown, і переставали слухати, коли відбувається mouseup. Тобто постійно ви маєте слухати тільки mousedown, а підписуватися на зміну mousemove i mouseup тільки після івенту mousedown
