@@ -142,22 +142,11 @@ function getEventListener()
     return ajax({
       url: 'https://jsonplaceholder.typicode.com/posts',
       body: search.value
-    }),
-    mergeMap(response => {
-      let data = []
-      for(let post of response.response)
-      {
-        data.push(post)
-      }
-      return data;
-    }),
-    toArray()
+    })
   }))
 }
 
-const request = getEventListener().subscribe(console.log)
-
-getEventListener().subscribe(console.log)
+const request = getEventListener().subscribe(data => console.log(data.response))
 
 // Використовуючи RxJs зробити свою імплементацію Drag&Drop.
 // Деталі: Створіть 3 observable mousedown$, mousemove$, mouseup$. Які будуть слухати події mousedown, mousemove, mouseup відповідно. Ваша задача поєднати їх так, щоб mousemove$ починав працювати тільки коли користувач натикає  на mousedown, і переставали слухати, коли відбувається mouseup. Тобто постійно ви маєте слухати тільки mousedown, а підписуватися на зміну mousemove i mouseup тільки після івенту mousedown
