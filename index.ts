@@ -36,13 +36,13 @@ function fromEventFunc(element, type)
   })
 }
 
-const eventObservable = fromEventFunc(document, 'click').subscribe({
-  next: (x) => console.log(x),
-  error: (err) => console.log("err", err),
-  complete: () => {console.log("Completed")},
-})
+// const eventObservable = fromEventFunc(document, 'click').subscribe({
+//   next: (x) => console.log(x),
+//   error: (err) => console.log("err", err),
+//   complete: () => {console.log("Completed")},
+// })
 
-setTimeout(() => eventObservable.unsubscribe(), 5000)
+// setTimeout(() => eventObservable.unsubscribe(), 5000)
 
 // Використовуючи оператор interval, підписатися на нього і слухати до того моменту, доки значення не буде більше 5(використовуючи оператор в pipe)
   // const intervalObservable = interval(500).pipe(take(5));
