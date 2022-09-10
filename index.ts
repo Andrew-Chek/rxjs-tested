@@ -155,7 +155,7 @@ const button = document.querySelector('button');
 
 const mouseup$ = fromEvent(button, 'mouseup')
 const mousemove$ = fromEvent(button, 'mousemove')
-mousemove$.subscribe(console.log)
+mousemove$.subscribe(value => console.log(value))
 
 // const mousedown$ = fromEvent(button, 'mousedown')
 // .pipe()
