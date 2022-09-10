@@ -7,24 +7,24 @@ import { fromAjax } from 'rxjs/internal/ajax/ajax';
 
 // Створити Observable, яка буде віддавати 2 синхронні значення "1", "2", а через 2 секунди викидувати помилку. Ваша задача використовуючи існуючі оператори обробити цю помилку всередині pipe, для того, щоб вона не дійшла до subscribe
 
-/*const observable = new Observable(function subscribe(subscriber) {
-  subscriber.next(1);
-  subscriber.next(2);
-  setInterval(() => subscriber.error('Observable error detected'), 2000);
-})
+// const observable = new Observable(function subscribe(subscriber) {
+//   subscriber.next(1);
+//   subscriber.next(2);
+//   setInterval(() => subscriber.error('Observable error detected'), 2000);
+// })
 
-const example = observable.pipe(catchError(val => of(`I caught: ${val}`)));
+// const example = observable.pipe(catchError(val => of(`I caught: ${val}`)));
 
-example.subscribe({
-  next: (x) => console.log(x),
-  error: (err) => console.log("err", err),
-  complete: () => console.log("Completed"),
-});
+// example.subscribe({
+//   next: (x) => console.log(x),
+//   error: (err) => console.log("err", err),
+//   complete: () => console.log("Completed"),
+// });
 
 // Створити аналог fromEvent оператора( який під капотом використовує addEventListener).
 // Не забувайте про витоки пам'яті і те, як їх уникати в RxJS(після відписання від цього оператора ми не повинні більше слухати події)
 
-function formEvent(element, type)
+function fromEventFunc(element, type)
 {
   return new Observable((subscriber) => {
     const sendEvent = (event) => {subscriber.next(event)};
@@ -35,13 +35,13 @@ function formEvent(element, type)
   })
 }
 
-const eventObservable = formEvent(document, 'click').subscribe({
+const eventObservable = fromEventFunc(document, 'click').subscribe({
   next: (x) => console.log(x),
   error: (err) => console.log("err", err),
   complete: () => {console.log("Completed")},
 })
 
-setTimeout(() => eventObservable.unsubscribe(), 5000)*/
+setTimeout(() => eventObservable.unsubscribe(), 5000)
 
 // Використовуючи оператор interval, підписатися на нього і слухати до того моменту, доки значення не буде більше 5(використовуючи оператор в pipe)
   // const intervalObservable = interval(500).pipe(take(5));
@@ -153,17 +153,17 @@ ajax<ResponseObject>('https://jsonplaceholder.typicode.com/posts')
 // const mousedown$ = ... .pipe().subscribe(value - колекція mousemove подій, яка починається віддаватися при mousedown і закінчує стрім при mouseup)
 const button = document.querySelector('button');
 
-const mouseup$ = fromEvent(button, 'mouseup')
-const mousemove$ = fromEvent(button, 'mousemove')
-mousemove$.subscribe(value => console.log(value))
+const mouseup$ = fromEventFunc(button, 'mouseup')
+const mousemove$ = fromEventFunc(button, 'mousemove')
 
-// const mousedown$ = fromEvent(button, 'mousedown')
-// .pipe()
+const mousedown$ = fromEvent(button, 'mousedown')
+.pipe(
+  mergeMap(event => {
+  mousemove$.subscribe(console.log)
+  mouseup$.subscribe(value => {
+    mousemove$.unsubscribe()
+  })
+  return mousemove$
+  })
+)
 
-// mousedown$.subscribe({
-//   next: (value) => {
-//     return fromEvent()
-//   },
-//   error: (error) => {console.log(error)},
-//   complete: () => {console.log('Complete Drag&Drop')},
-// })
