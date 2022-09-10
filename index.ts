@@ -29,7 +29,8 @@ function fromEventFunc(element, type)
   return new Observable((subscriber) => {
     const sendEvent = (event) => {subscriber.next(event)};
     element.addEventListener(type, sendEvent)
-    return () => {
+    return function unsubscribe() 
+    {
       element.removeEventListener(type, sendEvent);
     };
   })
