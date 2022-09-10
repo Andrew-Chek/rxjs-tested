@@ -1,7 +1,7 @@
 import './style.css';
 
 import { Observable, catchError, of, from, interval, take, fromEvent } from 'rxjs';
-import { share, switchMap, map, filter, mergeMap, toArray } from 'rxjs/operators'
+import { share, switchMap, map, filter, mergeMap, toArray, takeUntil  } from 'rxjs/operators'
 import { ajax } from 'rxjs/ajax';
 import { fromAjax } from 'rxjs/internal/ajax/ajax';
 
@@ -159,15 +159,10 @@ const mousemove$ = fromEventFunc(button, 'mousemove')
 
 const mousedown$ = fromEvent(button, 'mousedown')
 .pipe(
-  mergeMap(event => {
-  const moveSubscription = mousemove$.subscribe(() => console.log('item is moving'))
-  const mouseupSubscription = mouseup$.subscribe(value => {
-    console.log('mouse up, dragging finished')
-    moveSubscription.unsubscribe()
-    mouseupSubscription.unsubscribe()
-  })
-  return mousemove$
-  })
+  switchMap(() => {
+    return mousemove$
+  }),
+  takeUntil(mouseup$)
 ).subscribe({
   next: value => console.log(value),
   error: error => console.log(error),
