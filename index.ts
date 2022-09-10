@@ -149,10 +149,21 @@ ajax<ResponseObject>('https://jsonplaceholder.typicode.com/posts')
 // const request = getEventListener().subscribe(data => console.log(data.response))
 
 // Використовуючи RxJs зробити свою імплементацію Drag&Drop.
-// Деталі: Створіть 3 observable mousedown$, mousemove$, mouseup$. Які будуть слухати події mousedown, mousemove, mouseup відповідно. Ваша задача поєднати їх так, щоб mousemove$ починав працювати тільки коли користувач натикає  на mousedown, і переставали слухати, коли відбувається mouseup. Тобто постійно ви маєте слухати тільки mousedown, а підписуватися на зміну mousemove i mouseup тільки після івенту mousedown
+// Деталі: Створіть 3 observable mousedown$, mousemove$, mouseup$. Які будуть слухати події mousedown, mousemove, mouseup відповідно. Ваша задача поєднати їх так, щоб mousemove$ починав працювати тільки коли користувач натискає на mousedown, і переставали слухати, коли відбувається mouseup. Тобто постійно ви маєте слухати тільки mousedown, а підписуватися на зміну mousemove i mouseup тільки після івенту mousedown
 // const mousedown$ = ... .pipe().subscribe(value - колекція mousemove подій, яка починається віддаватися при mousedown і закінчує стрім при mouseup)
 const button = document.querySelector('button');
 
-const mousedown$ = fromEvent(button, 'mousedown')
 const mouseup$ = fromEvent(button, 'mouseup')
 const mousemove$ = fromEvent(button, 'mousemove')
+mousemove$.subscribe(console.log)
+
+// const mousedown$ = fromEvent(button, 'mousedown')
+// .pipe()
+
+// mousedown$.subscribe({
+//   next: (value) => {
+//     return fromEvent()
+//   },
+//   error: (error) => {console.log(error)},
+//   complete: () => {console.log('Complete Drag&Drop')},
+// })
