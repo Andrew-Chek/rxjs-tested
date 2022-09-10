@@ -161,9 +161,10 @@ const mousedown$ = fromEvent(button, 'mousedown')
 .pipe(
   mergeMap(event => {
   const moveSubscription = mousemove$.subscribe(() => console.log('item is moving'))
-  mouseup$.subscribe(value => {
+  const mouseupSubscription = mouseup$.subscribe(value => {
     console.log('mouse up, dragging finished')
     moveSubscription.unsubscribe()
+    mouseupSubscription.unsubscribe()
   })
   return mousemove$
   })
