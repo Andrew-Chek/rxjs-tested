@@ -160,6 +160,7 @@ const mousemove$ = fromEventFunc(button, 'mousemove')
 const mousedown$ = fromEvent(button, 'mousedown')
 .pipe(
   switchMap(() => {
+    console.log('mousemove started')
     return mousemove$
   }),
   takeUntil(mouseup$)
