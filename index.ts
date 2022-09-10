@@ -168,4 +168,8 @@ const mousedown$ = fromEvent(button, 'mousedown')
   })
   return mousemove$
   })
-).subscribe(value => console.log(value))
+).subscribe({
+  next: value => console.log(value),
+  error: error => console.log(error),
+  complete: () => console.log('Mousedown event completed'),
+})
