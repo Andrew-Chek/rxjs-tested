@@ -1,6 +1,6 @@
 import './style.css';
 
-import { Observable, catchError, of, interval, take, fromEvent } from 'rxjs';
+import { Observable, catchError, of, interval, take, fromEvent, from } from 'rxjs';
 import { share, switchMap, filter, mergeMap, toArray, takeUntil  } from 'rxjs/operators'
 import { ajax } from 'rxjs/ajax';
 
@@ -116,19 +116,12 @@ import { ajax } from 'rxjs/ajax';
 // ajax<ResponseObject>('https://jsonplaceholder.typicode.com/posts')
 // .pipe(
 //   mergeMap(response => {
-//     let data = []
-//     for(let post of response.response)
-//     {
-//       data.push(post)
-//     }
-//     return data;
+//     return from(response.response);
 //   }),
 //   filter((value) => value.id < 5),
 //   toArray()
 // )
 // .subscribe(data => console.log(data))
-
-
 
 // Використовуючи Rxjs написати потік, який буде слухати кліки по кнопці і відправляти при натисканню на неї запит на сервер із текстом введеним в пошук. В subscribe ми маємо отримати дані з серверу.
 // Оператори, які можуть знадобитися: fromEvent, switchMap, ajax, map, etc
@@ -154,20 +147,20 @@ import { ajax } from 'rxjs/ajax';
 // Використовуючи RxJs зробити свою імплементацію Drag&Drop.
 // Деталі: Створіть 3 observable mousedown$, mousemove$, mouseup$. Які будуть слухати події mousedown, mousemove, mouseup відповідно. Ваша задача поєднати їх так, щоб mousemove$ починав працювати тільки коли користувач натискає на mousedown, і переставали слухати, коли відбувається mouseup. Тобто постійно ви маєте слухати тільки mousedown, а підписуватися на зміну mousemove i mouseup тільки після івенту mousedown
 // const mousedown$ = ... .pipe().subscribe(value - колекція mousemove подій, яка починається віддаватися при mousedown і закінчує стрім при mouseup)
-const button = document.querySelector('button');
+// const button = document.querySelector('button');
 
-const mouseup$ = fromEvent(button, 'mouseup')
-const mousemove$ = fromEvent(button, 'mousemove')
+// const mouseup$ = fromEvent(button, 'mouseup')
+// const mousemove$ = fromEvent(button, 'mousemove')
 
-const mousedown$ = fromEvent(button, 'mousedown')
-.pipe(
-  switchMap(() => {
-    console.log('mousemove started')
-    takeUntil(mouseup$)
-    return mousemove$
-  })
-).subscribe({
-  next: value => console.log(value),
-  error: error => console.log(error),
-  complete: () => console.log('Mousedown event completed'),
-})
+// const mousedown$ = fromEvent(button, 'mousedown')
+// .pipe(
+//   switchMap(() => {
+//     console.log('mousemove started')
+//     return mousemove$
+//   }),
+//   takeUntil(mouseup$)
+// ).subscribe({
+//   next: value => console.log(value),
+//   error: error => console.log(error),
+//   complete: () => console.log('Mousedown event completed'),
+// })
