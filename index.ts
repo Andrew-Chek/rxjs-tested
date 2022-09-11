@@ -65,43 +65,43 @@ import { ajax } from 'rxjs/ajax';
 // sub1 3
 // sub2 3
 
-// function coldInterval() {
-//   return new Observable<number>((subscriber) => {
-//     let count = 0;
-//     const intervalId = setInterval(() => {
-//       if (count < 5) {
-//         subscriber.next(count++);
-//       } else {
-//         subscriber.complete();
-//       }
-//     }, 2000);
+let count = 0;
+const myInterval = setInterval(() => {count++}, 2000)
 
-//     return () => {
-//       clearInterval(intervalId);
-//     };
-//   });
-// }
+function hotInterval() {
+  return new Observable<number>((subscriber) => {
+    const intervalId = setInterval(() => {
+      if (count < 5) {
+        subscriber.next(count);
+      } else {
+        subscriber.complete();
+      }
+    }, 2000);
 
-// const coldInterval$ = coldInterval();
-// const hotInterval = coldInterval$.pipe(share())
-// console.log('sub1 subscibed')
-// hotInterval.subscribe({
-//   next: (value) => {
-//     console.log('sub1:', value)
-//     return value;
-//   }
-// });
+    return () => {
+      clearInterval(intervalId);
+    };
+  });
+}
 
-// function subscribe()
-// {
-//   console.log('sub2 subscribed');
-//   hotInterval.subscribe({
-//     next: (value) => {
-//       console.log('sub2:', value)
-//       return value;
-//     }})
-// }
-// setTimeout(subscribe, 3000);
+const hotInterval$ = hotInterval();
+console.log('sub1 subscibed')
+hotInterval$.subscribe({
+  next: (value) => {
+    console.log('sub1:', value)
+  }
+});
+
+function subscribe()
+{
+  console.log('sub2 subscribed');
+  hotInterval$.subscribe({
+    next: (value) => {
+      console.log('sub2:', value)
+    }})
+}
+setTimeout(subscribe, 3000);
+setTimeout(() => {clearInterval(myInterval)}, 20000);
 
 // Обробити відповідь запиту, в pipe спочатку витягнути об'єкт response(це масив), відфільтруєте масив так, щоб залишилися тільки пости з id менше 5.
 // Hint: так як response - це буде масив постів, ви не можете просто фідфільтрувати його через filter(він приймає кожен елемент масиву, а не цілий масив). Для рішення цієї задачі вам потрібні оператори mergeMap або concatMap, в яких ви зробите з(перекладіть англійською) масиву потік окремих елементів масиву([1, 2, 3] => 1, 2, 3), відфільтруєте їх,а потім зберете назад в масив за допомогою оператора. В subscribe ми отримаємо масив з 4 об'єктів id яких менше 5
@@ -155,7 +155,7 @@ import { ajax } from 'rxjs/ajax';
 // const mousedown$ = fromEvent(button, 'mousedown')
 // .pipe(
 //   switchMap(() => {
-//     console.log('mousemove started')
+//     console.log('Mousemove started')
 //     return mousemove$
 //   }),
 //   takeUntil(mouseup$)
