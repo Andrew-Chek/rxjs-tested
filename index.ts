@@ -9,10 +9,13 @@ import { ajax } from 'rxjs/ajax';
 const observable = new Observable(function subscribe(subscriber) {
   subscriber.next(1);
   subscriber.next(2);
-  setInterval(() => {
+  const intervalId = setInterval(() => {
     console.log('hello from error')
     subscriber.error('Observable error detected')
   }, 2000);
+  return () => {
+    clearInterval(intervalId);
+  }
 })
 
 const example = observable.pipe(catchError(val => of(`I caught: ${val}`)));
