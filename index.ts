@@ -67,10 +67,11 @@ import { ajax } from 'rxjs/ajax';
 
 function hotInterval() {
   let count = 0;
+  const myInterval = setInterval(() => {count++}, 2000)
   return new Observable<number>((subscriber) => {
     const intervalId = setInterval(() => {
       if (count < 5) {
-        subscriber.next(count++);
+        subscriber.next(count);
       } else {
         subscriber.complete();
       }
@@ -78,6 +79,7 @@ function hotInterval() {
 
     return () => {
       clearInterval(intervalId);
+      clearInterval(myInterval);
     };
   });
 }
@@ -98,7 +100,7 @@ function subscribe()
       console.log('sub2:', value)
     }})
 }
-setTimeout(subscribe, 2000);
+setTimeout(subscribe, 3000);
 
 // Обробити відповідь запиту, в pipe спочатку витягнути об'єкт response(це масив), відфільтруєте масив так, щоб залишилися тільки пости з id менше 5.
 // Hint: так як response - це буде масив постів, ви не можете просто фідфільтрувати його через filter(він приймає кожен елемент масиву, а не цілий масив). Для рішення цієї задачі вам потрібні оператори mergeMap або concatMap, в яких ви зробите з(перекладіть англійською) масиву потік окремих елементів масиву([1, 2, 3] => 1, 2, 3), відфільтруєте їх,а потім зберете назад в масив за допомогою оператора. В subscribe ми отримаємо масив з 4 об'єктів id яких менше 5
